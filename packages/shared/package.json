@@ -1,0 +1,12 @@
+{
+  "name": "@tochno/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
+    "@fontsource/ibm-plex-mono": "^5.3.0"
+  }
+}

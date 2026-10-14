@@ -1,0 +1,10 @@
+{
+  "name": "tochno",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev:client": "npm run dev -w @tochno/client-web",
+    "dev:admin": "npm run dev -w @tochno/admin-web",
+    "build": "npm run build -w @tochno/client-web && npm run build -w @tochno/admin-web"
+  }
+}

@@ -1,0 +1,15 @@
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.env
+*.db
+storage/
+.pytest_cache/
+*.log
+dev_storage/
+smoke_storage/
+.env.*
+!.env.example
+.DS_Store
