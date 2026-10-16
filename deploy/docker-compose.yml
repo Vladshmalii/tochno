@@ -1,0 +1,121 @@
+# Прод-стек docsai за Traefik (див. traefik-deploy-guide.md).
+# На сервері лежить у /opt/docsai/docker-compose.yml — копіюється туди CI/CD автоматично.
+# Секрети — у /opt/docsai/.env (шаблон: deploy/.env.example), в git не потрапляють.
+#
+#   docsai.dvms.tech          -> landing
+#   docsai-client.dvms.tech   -> client-web (кабінет)
+#   docsai-admin.dvms.tech    -> admin-web (адмінка)
+#   docsai-backend.dvms.tech  -> api (FastAPI)
+#
+# Відкат: TAG=<git sha> docker compose up -d   (список у deploy-history.log)
+name: docsai
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tochno
+      POSTGRES_USER: tochno
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    # НЕ в мережі proxy — база доступна лише api через default
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tochno"]
+      interval: 5s
+      retries: 10
+    labels:
+      backup.database: "postgres"
+    mem_limit: 512m
+    logging: *logging
+
+  api:
+    image: ${IMAGE_PREFIX:-ghcr.io/vladshmalii/tochno}-api:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      APP_ENV: prod
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      DATABASE_URL: postgresql+psycopg://tochno:${POSTGRES_PASSWORD}@db:5432/tochno
+      STORAGE_DIR: /data/storage
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      PUBLIC_API_URL: https://docsai-backend.dvms.tech
+      CORS_ORIGINS: https://docsai-client.dvms.tech,https://docsai-admin.dvms.tech,https://docsai.dvms.tech
+      ALLOW_SIGNUP: ${ALLOW_SIGNUP:-true}
+      BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL:-admin@tochno.app}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+      # реальний IP клієнта з X-Forwarded-For від Traefik (rate-limit логіну)
+      FORWARDED_ALLOW_IPS: "*"
+    volumes:
+      - files:/data/storage
+    networks:
+      - proxy
+      - default
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "proxy"
+      traefik.http.routers.docsai-api.rule: Host(`docsai-backend.dvms.tech`)
+      traefik.http.routers.docsai-api.entrypoints: websecure
+      traefik.http.routers.docsai-api.tls.certresolver: le
+      traefik.http.services.docsai-api.loadbalancer.server.port: "8000"
+    mem_limit: 1g
+    logging: *logging
+
+  client:
+    image: ${IMAGE_PREFIX:-ghcr.io/vladshmalii/tochno}-client:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.docsai-client.rule: Host(`docsai-client.dvms.tech`)
+      traefik.http.routers.docsai-client.entrypoints: websecure
+      traefik.http.routers.docsai-client.tls.certresolver: le
+      traefik.http.services.docsai-client.loadbalancer.server.port: "80"
+    mem_limit: 64m
+    logging: *logging
+
+  admin:
+    image: ${IMAGE_PREFIX:-ghcr.io/vladshmalii/tochno}-admin:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.docsai-admin.rule: Host(`docsai-admin.dvms.tech`)
+      traefik.http.routers.docsai-admin.entrypoints: websecure
+      traefik.http.routers.docsai-admin.tls.certresolver: le
+      traefik.http.services.docsai-admin.loadbalancer.server.port: "80"
+    mem_limit: 64m
+    logging: *logging
+
+  landing:
+    image: ${IMAGE_PREFIX:-ghcr.io/vladshmalii/tochno}-landing:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.docsai-landing.rule: Host(`docsai.dvms.tech`)
+      traefik.http.routers.docsai-landing.entrypoints: websecure
+      traefik.http.routers.docsai-landing.tls.certresolver: le
+      traefik.http.services.docsai-landing.loadbalancer.server.port: "80"
+    mem_limit: 64m
+    logging: *logging
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  pgdata:
+  files:

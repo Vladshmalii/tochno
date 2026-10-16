@@ -1,0 +1,10 @@
+.env
+.env.*
+__pycache__
+*.pyc
+*.db
+storage
+dev_storage
+smoke_storage
+.pytest_cache
+tests
