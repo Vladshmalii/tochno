@@ -1,237 +1,540 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" class="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tochno — документи, перевірені до останньої цифри</title>
-<meta name="description" content="Tochno читає рахунки, акти, виписки й паспорти, перевіряє їх кодом — контрольні суми, баланс, дублікати, підміну IBAN — і залишає вам лише підтвердження.">
-<meta name="theme-color" content="#10201a">
+<title>Tochno — AI-верифікація документів та бухгалтерії до останньої цифри</title>
+<meta name="description" content="Tochno читає рахунки, акти, виписки й паспорти, перевіряє їх детермінованим кодом — контрольні суми, баланс, дублікати, підміну IBAN — і залишає вам лише підтвердження.">
+<meta name="theme-color" content="#060d0a">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@0,7..72,500;0,7..72,600;1,7..72,500&display=swap" rel="stylesheet">
+
 <style>
-@font-face{font-family:'Onest';src:url(fonts/onest-cyrillic-wght-normal.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:'Onest';src:url(fonts/onest-latin-wght-normal.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Literata';src:url(fonts/literata-cyrillic-wght-normal.woff2) format('woff2');font-weight:200 900;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:'Literata';src:url(fonts/literata-latin-wght-normal.woff2) format('woff2');font-weight:200 900;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Plex Mono';src:url(fonts/ibm-plex-mono-cyrillic-500-normal.woff2) format('woff2');font-weight:500;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:'Plex Mono';src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-
-:root{
-  --paper:#f6f3ea;--surface:#fff;--soft:#efebdf;--border:#e4dfd0;--border-strong:#cfc9b6;
-  --ink:#10201a;--muted:#5e6b64;--accent:#0e7c5a;--accent-hover:#0b6548;--accent-ink:#fff;--accent-soft:#ddf1e8;--marker:#f4c430;
-  --ok:#1e6b45;--ok-soft:#dff1e6;--warn:#8a5a00;--warn-soft:#fbefcf;--err:#b3261e;--err-soft:#fbe4e0;
-  --head:'Literata',Georgia,serif;--body:'Onest',system-ui,sans-serif;--mono:'Plex Mono',ui-monospace,Consolas,monospace;
+:root {
+  --bg-deep: #050a08;
+  --bg-surface: #0b1511;
+  --bg-card: #0f1c17;
+  --bg-card-hover: #14261f;
+  --border-subtle: #1a2f26;
+  --border-strong: #254236;
+  --text-main: #f2f7f4;
+  --text-muted: #829a8f;
+  --text-dim: #4d685c;
+  --accent: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.25);
+  --accent-soft: rgba(16, 185, 129, 0.12);
+  --gold: #f59e0b;
+  --gold-soft: rgba(245, 158, 11, 0.14);
+  --red: #ef4444;
+  --red-soft: rgba(239, 68, 68, 0.14);
+  --head: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'IBM Plex Mono', Consolas, monospace;
 }
-@media(prefers-color-scheme:dark){:root{
-  --paper:#0d1512;--surface:#14211c;--soft:#1b2b25;--border:#25362f;--border-strong:#35493f;
-  --ink:#e8efea;--muted:#93a59b;--accent:#3fc79a;--accent-hover:#63d6b0;--accent-ink:#06231a;--accent-soft:#15382c;--marker:#e8b923;
-  --ok:#5fd39b;--ok-soft:#12301f;--warn:#f0b429;--warn-soft:#33290d;--err:#ff8a80;--err-soft:#3a1a18}}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--marker);color:#10201a}
-.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
-header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{display:inline-flex;align-items:center;gap:10px;font:600 23px/1 var(--head);letter-spacing:-.02em}
-.logo svg{display:block}
-nav{display:flex;gap:28px;align-items:center;font-size:15px;color:var(--muted)}
-nav a:hover{color:var(--ink)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;font:600 15px var(--body);border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);transition:background .12s}
-.btn:hover{background:var(--soft)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);box-shadow:inset 0 -2px 0 rgba(0,0,0,.14)}
-.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--bg-deep); color: var(--text-main); }
+body { font: 16px/1.6 var(--head); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--accent); color: #021a10; }
 
-h1,h2,h3{font-family:var(--head);font-weight:600;letter-spacing:-.015em;margin:0}
-h1{font-size:clamp(38px,6vw,66px);line-height:1.04}
-h2{font-size:clamp(28px,3.6vw,40px);line-height:1.12}
-h3{font-family:var(--body);font-size:18px;font-weight:650;letter-spacing:0}
-mark{background:linear-gradient(transparent 60%,var(--marker) 60%);color:inherit;padding:0 .08em}
-.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
-.lead{font-size:20px;color:var(--muted);max-width:540px;margin:22px 0 30px}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:84px 0 72px}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
-.note{font-size:14px;color:var(--muted);margin-top:16px}
-.steps-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.steps-line span{border:1px solid var(--border-strong);border-radius:6px;padding:5px 10px}
+/* Subtle Ambient Glows & Grid */
+.ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+}
+.glow-1 { top: -100px; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); }
+.glow-2 { top: 600px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%); }
 
-/* документ-приклад */
-.doc{background:var(--surface);border:1px solid var(--border-strong);border-radius:14px;padding:22px 22px 18px;box-shadow:0 18px 40px -22px rgba(16,32,26,.35);position:relative}
-.doc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed var(--border-strong)}
-.doc-head b{font:600 19px var(--head)}
-.doc-head small{display:block;color:var(--muted);font-size:13px}
-.stamp{display:inline-block;font:600 11.5px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;border:1.5px solid;border-radius:6px;padding:5px 9px;white-space:nowrap}
-.stamp.ok{color:var(--ok);background:var(--ok-soft)}.stamp.err{color:var(--err);background:var(--err-soft)}.stamp.warn{color:var(--warn);background:var(--warn-soft)}
-.line{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:15px}
-.line:last-of-type{border:0}
-.line .k{color:var(--muted)}
-.line .v{font:500 14px var(--mono)}
-.line .flag{font-size:12.5px;color:var(--err);display:block;text-align:right;font-family:var(--body);margin-top:2px}
-.doc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border-strong);font-size:14px;color:var(--muted)}
+/* Navigation */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 10, 8, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; font-size: 24px; letter-spacing: -0.02em; }
+.logo svg { display: block; }
+nav { display: flex; gap: 32px; align-items: center; font-size: 15px; font-weight: 500; color: var(--text-muted); }
+nav a:hover { color: var(--text-main); }
 
-section{padding:84px 0}
-section.alt{background:var(--soft);border-block:1px solid var(--border)}
-.sec-head{max-width:640px;margin-bottom:44px}
-.sec-head p{color:var(--muted);font-size:18px;margin:14px 0 0}
-.grid{display:grid;gap:20px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px}
-.card p{margin:8px 0 0;color:var(--muted);font-size:15.5px}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font: 600 15px var(--head);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn:hover { background: var(--bg-card-hover); border-color: var(--accent); transform: translateY(-1px); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #021a10;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.btn.primary:hover { background: #34d399; box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4); }
 
-.three{counter-reset:s}
-.three .card{position:relative;padding-top:34px}
-.three .card::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;top:-1px;left:26px;transform:translateY(-50%);font:500 13px var(--mono);background:var(--ink);color:var(--paper);padding:4px 10px;border-radius:6px}
-.who{display:inline-block;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+/* Typography */
+h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
+h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; }
+h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
 
-.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:0 36px}
-.check{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border-strong)}
-.check .ico{flex:none;width:26px;height:26px;border-radius:7px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:15px}
-.check b{display:block;font-size:16px}.check span{color:var(--muted);font-size:15px}
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 
-.mods .card h3{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-.int{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-.int span{border:1px solid var(--border-strong);background:var(--surface);border-radius:8px;padding:8px 14px;font:500 13.5px var(--mono)}
+/* Hero Section */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  padding: 100px 0 80px;
+}
+.lead { font-size: 20px; color: var(--text-muted); line-height: 1.55; margin: 24px 0 36px; max-width: 560px; }
+.hero-cta-group { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.hero-note { font-size: 14px; color: var(--text-dim); margin-top: 16px; font-family: var(--mono); }
 
-.price{font:500 34px var(--mono);margin:10px 0 4px;letter-spacing:-.02em}.price small{font:400 15px var(--body);color:var(--muted)}
-.card ul{list-style:none;padding:0;margin:16px 0 22px;font-size:15px}.card li{padding:5px 0 5px 26px;position:relative}.card li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
-.card.hot{border:2px solid var(--accent);position:relative}
-.card.hot .tag{position:absolute;top:-13px;left:22px;background:var(--marker);color:#10201a;font:600 12px var(--body);letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+/* Live Verification HUD Card */
+.hud-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+.hud-laser {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 15px var(--accent);
+  animation: laserScan 3s infinite ease-in-out;
+}
+@keyframes laserScan {
+  0% { top: 0%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
 
-details{border-bottom:1px solid var(--border-strong);padding:20px 0}
-summary{cursor:pointer;font:600 19px var(--head);list-style:none;display:flex;justify-content:space-between;gap:16px}
-summary::after{content:"+";font:400 24px var(--body);color:var(--accent)}
-details[open] summary::after{content:"–"}
-details p{color:var(--muted);margin:12px 0 0;max-width:680px}
+.hud-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--border-strong);
+  margin-bottom: 20px;
+}
+.hud-head b { font-size: 20px; color: var(--text-main); display: block; margin-bottom: 4px; }
+.hud-head small { color: var(--text-muted); font-size: 14px; }
 
-.final{background:#10201a;color:#f6f3ea;border:1px solid var(--border-strong);border-radius:22px;padding:64px 32px;text-align:center}
-.final h2{color:#f6f3ea}.final p{color:#b7c6be;margin:14px auto 30px;max-width:520px;font-size:18px}
-.final .btn.primary{background:var(--marker);border-color:var(--marker);color:#10201a}
-.final .btn.primary:hover{background:#ffd34d}
-footer{padding:40px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--border)}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
-footer a:hover{color:var(--ink);text-decoration:underline}
+.stamp {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid;
+}
+.stamp.ok { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.stamp.err { background: var(--red-soft); color: var(--red); border-color: var(--red); }
+.stamp.warn { background: var(--gold-soft); color: var(--gold); border-color: var(--gold); }
 
-@media(max-width:960px){.hero{grid-template-columns:1fr;padding-top:48px;gap:40px}.g3,.g4{grid-template-columns:1fr 1fr}.checks{grid-template-columns:1fr}nav a:not(.btn){display:none}}
-@media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}section{padding:60px 0}.lead{font-size:18px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.hud-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 15px;
+}
+.hud-line:last-of-type { border-bottom: none; }
+.hud-k { color: var(--text-muted); }
+.hud-v { font-family: var(--mono); font-weight: 600; color: var(--text-main); }
+.hud-flag { color: var(--red); font-size: 12px; text-align: right; display: block; margin-top: 3px; font-family: var(--head); }
+
+.hud-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border-strong);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Bento Grid Features */
+section { padding: 90px 0; position: relative; }
+section.alt { background: #08100d; border-block: 1px solid var(--border-subtle); }
+.sec-head { max-width: 680px; margin-bottom: 50px; }
+.sec-head p { color: var(--text-muted); font-size: 18px; margin-top: 14px; }
+
+.bento-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.bento-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.bento-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+.card:hover { border-color: var(--border-strong); transform: translateY(-2px); background: var(--bg-card-hover); }
+.card p { margin-top: 10px; color: var(--text-muted); font-size: 15px; line-height: 1.55; }
+
+.card-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+/* Security Anomaly Grid */
+.anomaly-item {
+  display: flex;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.anomaly-item:last-child { border-bottom: none; }
+.anomaly-icon {
+  flex: none;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--red-soft);
+  color: var(--red);
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+/* Pricing Hot Card */
+.pricing-card.hot {
+  border: 2px solid var(--accent);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, var(--bg-card) 100%);
+}
+.pricing-tag {
+  position: absolute;
+  top: -14px; left: 24px;
+  background: var(--accent);
+  color: #021a10;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.price { font-family: var(--mono); font-size: 40px; font-weight: 800; color: var(--text-main); margin: 16px 0 6px; }
+.price small { font-size: 16px; color: var(--text-muted); font-weight: 400; }
+
+.pricing-card ul { list-style: none; margin: 20px 0 28px; }
+.pricing-card li { font-size: 15px; color: var(--text-muted); padding: 6px 0 6px 24px; position: relative; }
+.pricing-card li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* Callout CTA Banner */
+.cta-banner {
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.15) 0%, transparent 60%), #0b1511;
+  border: 1px solid var(--border-strong);
+  border-radius: 28px;
+  padding: 70px 40px;
+  text-align: center;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+}
+.cta-banner h2 { font-size: 42px; margin-bottom: 16px; }
+.cta-banner p { font-size: 19px; color: var(--text-muted); margin: 0 auto 32px; max-width: 520px; }
+
+footer { padding: 48px 0; border-top: 1px solid var(--border-subtle); color: var(--text-dim); font-size: 14px; }
+.footer-wrap { display: flex; justify-content: space-between; align-items: center; }
+
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; padding-top: 60px; }
+  .bento-3, .bento-4 { grid-template-columns: 1fr 1fr; }
+  nav a:not(.btn) { display: none; }
+}
+@media (max-width: 640px) {
+  .bento-2, .bento-3, .bento-4 { grid-template-columns: 1fr; }
+  h1 { font-size: 38px; }
+}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-  <a class="logo" href="#" aria-label="Tochno">
-    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0E7C5A"/><path d="M10 6.5h8.2L24.5 13v12.5a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-17a2 2 0 0 1 2-2Z" fill="#F6F3EA"/><path d="M18.2 6.5V11a2 2 0 0 0 2 2h4.3" fill="#BFE0D1"/><path d="M12 19.4l3.1 3.1 5.9-6.4" fill="none" stroke="#0E7C5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23.6" cy="6.4" r="2.4" fill="#F4C430"/></svg>
-    Tochno
-  </a>
-  <nav><a href="#how">Як це працює</a><a href="#checks">Перевірки</a><a href="#modules">Модулі</a><a href="#pricing">Тарифи</a><a href="#faq">Питання</a>
-  <a class="btn primary" href="http://localhost:5173/login" data-app="login">Увійти</a></nav>
-</div></header>
+
+<div class="ambient-glow glow-1"></div>
+<div class="ambient-glow glow-2"></div>
+
+<header>
+  <div class="container nav-wrap">
+    <a class="logo" href="#" aria-label="Tochno">
+      <svg width="32" height="32" viewBox="0 0 32 32">
+        <rect width="32" height="32" rx="9" fill="#10B981"/>
+        <path d="M10 6.5h8.2L24.5 13v12.5a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-17a2 2 0 0 1 2-2Z" fill="#F2F7F4"/>
+        <path d="M18.2 6.5V11a2 2 0 0 0 2 2h4.3" fill="#A7F3D0"/>
+        <path d="M12 19.4l3.1 3.1 5.9-6.4" fill="none" stroke="#064E3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="23.6" cy="6.4" r="2.4" fill="#F59E0B"/>
+      </svg>
+      Tochno
+    </a>
+    <nav>
+      <a href="#how">Як це працює</a>
+      <a href="#checks">Перевірки</a>
+      <a href="#modules">Модулі</a>
+      <a href="#pricing">Тарифи</a>
+      <a class="btn primary" href="http://localhost:5173/login" data-app="login">Увійти</a>
+    </nav>
+  </div>
+</header>
 
 <main>
-<div class="wrap hero">
-  <div>
-    <div class="eyebrow">Перевірка документів для бухгалтерії</div>
-    <h1>Документи — <mark>точно</mark>.</h1>
-    <p class="lead">Tochno читає рахунки, акти, виписки та паспорти, перевіряє кожну цифру кодом і залишає вам лише підтвердження. Помилка не потрапляє в облік непоміченою.</p>
-    <div class="cta"><a class="btn primary" href="http://localhost:5173/login" data-app="login">Спробувати безкоштовно</a><a class="btn" href="#how">Як це працює</a></div>
-    <div class="note">30 документів на місяць безкоштовно. Без картки.</div>
-    <div class="steps-line" aria-label="Три кроки"><span>Читає</span><span>Перевіряє</span><span>Підтверджує</span></div>
-  </div>
-
-  <div class="doc" aria-label="Приклад перевіреного рахунку">
-    <div class="doc-head">
-      <div><b>Рахунок на оплату № 145</b><small>ТОВ «Ромашка» · ЄДРПОУ 32855961</small></div>
-      <span class="stamp warn">На перевірці</span>
+  <!-- Hero Section -->
+  <div class="container hero">
+    <div>
+      <div class="badge-tag">
+        <span class="badge-dot"></span> Детермінований AI-аудит документів
+      </div>
+      <h1>Документи — <span style="color: var(--accent);">точно.</span></h1>
+      <p class="lead">Tochno читає рахунки, акти, виписки та паспорти, перевіряє кожну цифру кодом і залишає вам лише підтвердження. Помилка не потрапляє в облік непоміченою.</p>
+      
+      <div class="hero-cta-group">
+        <a class="btn primary" href="http://localhost:5173/login" data-app="login">Спробувати безкоштовно</a>
+        <a class="btn" href="#how">Як це працює</a>
+      </div>
+      <div class="hero-note">✓ 30 документів на місяць безкоштовно · Без банківської картки</div>
     </div>
-    <div class="line"><span class="k">ЄДРПОУ</span><span class="v">32855961 ✓</span></div>
-    <div class="line"><span class="k">Сума до сплати</span><span class="v">1 200,50 ₴</span></div>
-    <div class="line"><span class="k">Сума рядків</span><span class="v">1 200,50 ₴ ✓</span></div>
-    <div class="line"><span class="k">Дублікат</span><span class="v">не знайдено ✓</span></div>
-    <div class="line"><span class="k">IBAN</span><span><span class="v">UA21 3223 1300 …6001</span><span class="flag">Відрізняється від IBAN у довіднику</span></span></div>
-    <div class="doc-foot"><span>1 попередження з 5 перевірок</span><span class="stamp err">Перевірте IBAN</span></div>
+
+    <!-- Live Verified Invoice Card -->
+    <div class="hud-card" aria-label="Приклад розпізнаного рахунку">
+      <div class="hud-laser"></div>
+      <div class="hud-head">
+        <div>
+          <b>Рахунок на оплату № 145</b>
+          <small>ТОВ «Ромашка» · ЄДРПОУ 32855961</small>
+        </div>
+        <span class="stamp warn">На перевірці</span>
+      </div>
+
+      <div class="hud-line">
+        <span class="hud-k">ЄДРПОУ (контрольна сума)</span>
+        <span class="hud-v" style="color: var(--accent);">32855961 ✓</span>
+      </div>
+      <div class="hud-line">
+        <span class="hud-k">Сума до сплати</span>
+        <span class="hud-v">1 200,50 ₴</span>
+      </div>
+      <div class="hud-line">
+        <span class="hud-k">Сума рядків документа</span>
+        <span class="hud-v" style="color: var(--accent);">1 200,50 ₴ ✓</span>
+      </div>
+      <div class="hud-line">
+        <span class="hud-k">Дублікат рахунку</span>
+        <span class="hud-v" style="color: var(--accent);">Не знайдено ✓</span>
+      </div>
+      <div class="hud-line">
+        <span class="hud-k">IBAN рахунку</span>
+        <div>
+          <span class="hud-v" style="color: #ff8a80;">UA21 3223 … 6001</span>
+          <span class="hud-flag">⚠️ Відрізняється від довідника</span>
+        </div>
+      </div>
+
+      <div class="hud-foot">
+        <span>1 попередження з 5 перевірок</span>
+        <span class="stamp err">Перевірте IBAN</span>
+      </div>
+    </div>
   </div>
-</div>
 
-<section id="how" class="alt"><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Принцип</div><h2>Читає. Перевіряє. Підтверджує.</h2>
-  <p>Мовні моделі добре читають і погано рахують. Тому кожен крок виконує той, хто в ньому найсильніший.</p></div>
-  <div class="grid g3 three">
-    <div class="card"><span class="who">ШІ</span><h3>Читає</h3><p>PDF, фото, скани, Word, Excel. Витягує постачальника, суми, реквізити, рядки, дати — з багатосторінкових документів теж.</p></div>
-    <div class="card"><span class="who">Код</span><h3>Перевіряє</h3><p>Контрольні суми ЄДРПОУ, ІПН та IBAN, збіг сум, баланс, дублікати. Детерміновано: однаковий документ — однаковий результат.</p></div>
-    <div class="card"><span class="who">Ви</span><h3>Підтверджуєте</h3><p>Оригінал поруч із даними, проблемні поля підсвічені. Один клік — «Затвердити і далі». Без вашого штампа нічого не йде в облік.</p></div>
-  </div>
-</div></section>
+  <!-- How It Works (Bento Pillars) -->
+  <section id="how" class="alt">
+    <div class="container">
+      <div class="sec-head">
+        <div class="badge-tag"><span class="badge-dot"></span> Тріада верифікації</div>
+        <h2>Читає. Перевіряє. Підтверджує.</h2>
+        <p>Мовні моделі добре читають і погано рахують. Тому кожен крок виконує той, хто в ньому найсильніший.</p>
+      </div>
 
-<section id="checks"><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Що ловить Tochno</div><h2>Помилки, які легко пропустити очима</h2></div>
-  <div class="checks">
-    <div class="check"><div class="ico">№</div><div><b>Хибний ЄДРПОУ чи ІПН</b><span>Не сходиться контрольна сума — ймовірно, помилка розпізнавання або друку.</span></div></div>
-    <div class="check"><div class="ico">⚠</div><div><b>Підміна IBAN</b><span>У знайомого постачальника раптом новий рахунок — типова схема шахрайства.</span></div></div>
-    <div class="check"><div class="ico">⧉</div><div><b>Дублікат рахунку</b><span>Той самий номер від того ж постачальника вже є в системі.</span></div></div>
-    <div class="check"><div class="ico">Σ</div><div><b>Суми не збігаються</b><span>Рядки документа не дають підсумку, ПДВ «пливе».</span></div></div>
-    <div class="check"><div class="ico">⚖</div><div><b>Баланс не сходиться</b><span>Актив ≠ пасив, залишок виписки не збігається з рухом коштів.</span></div></div>
-    <div class="check"><div class="ico">ID</div><div><b>Розбіжність у документах особи</b><span>Дата народження проти ІПН, контрольні цифри MRZ, термін дії.</span></div></div>
-  </div>
-</div></section>
+      <div class="bento-3">
+        <div class="card">
+          <span class="card-num">01 / ШІ ЧИТАЄ</span>
+          <h3>Витягнення даних</h3>
+          <p>PDF, фото, скани, Word, Excel. Миттєво парсить постачальника, суми, реквізити, табличні рядки та дати.</p>
+        </div>
+        <div class="card" style="border-color: var(--border-strong);">
+          <span class="card-num">02 / КОД РАХУЄ</span>
+          <h3>Детермінований контроль</h3>
+          <p>Контрольні суми ЄДРПОУ, ІПН, IBAN, математичний баланс та звірка з базою. Однаковий документ — гарантований результат.</p>
+        </div>
+        <div class="card">
+          <span class="card-num">03 / ВИ ПІДТВЕРДЖУЄТЕ</span>
+          <h3>Контроль людиною</h3>
+          <p>Оригінал поруч із даними, проблемні поля підсвічені. Один клік — «Затвердити і далі». Повний спокій бухгалтера.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section id="modules" class="alt"><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Модулі</div><h2>Підключайте лише потрібне</h2><p>Кожен модуль вмикається окремо — за тарифом або індивідуально.</p></div>
-  <div class="grid g3 mods">
-    <div class="card"><h3>Аналіз документів</h3><p>Рахунки, акти, накладні, платіжки з усіма перевірками.</p></div>
-    <div class="card"><h3>Звірка контрагентів</h3><p>Довідник, автозвірка за ЄДРПОУ та назвою, контроль реквізитів.</p></div>
-    <div class="card"><h3>Бухгалтерські звіти</h3><p>Виписка, баланс, фінрезультати: категорії витрат, коефіцієнти, короткий підсумок.</p></div>
-    <div class="card"><h3>Кадри</h3><p>Паспорт, ID-картка, довідка ІПН. Звірка даних і термінів дії.</p></div>
-    <div class="card"><h3>База знань</h3><p>Асистент відповідає лише за вашими інструкціями — з посиланням на джерело. Питання без відповіді показують прогалини в базі.</p></div>
-    <div class="card"><h3>Ваш процес</h3><p>Потрібен інший тип документа? Додаємо новий модуль, не чіпаючи решту.</p></div>
-  </div>
-  <div style="margin-top:40px"><div class="eyebrow">Інтеграції</div>
-    <div class="int"><span>Excel / CSV</span><span>REST API</span><span>Вебхуки з підписом</span><span>Telegram-бот</span><span>Приймання з пошти</span><span>1С / Bitrix24 — на замовлення</span></div></div>
-</div></section>
+  <!-- Checks Section -->
+  <section id="checks">
+    <div class="container">
+      <div class="sec-head">
+        <div class="badge-tag"><span class="badge-dot"></span> Безпека балансу</div>
+        <h2>Помилки, які легко пропустити очима</h2>
+      </div>
 
-<section><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Контроль</div><h2>Під вашим контролем</h2></div>
-  <div class="grid g3">
-    <div class="card"><h3>Рішення — за людиною</h3><p>Авто-затвердження — окрема опція, і лише для документів без жодного попередження.</p></div>
-    <div class="card"><h3>Журнал дій</h3><p>Хто, що і коли завантажив, виправив чи затвердив. Ролі: власник, бухгалтер, перегляд.</p></div>
-    <div class="card"><h3>Дані клієнтів ізольовані</h3><p>Кожна компанія бачить лише свої документи. Для вимогливих — розгортання на власному сервері.</p></div>
-  </div>
-</div></section>
+      <div class="bento-2">
+        <div class="card">
+          <div class="anomaly-item">
+            <div class="anomaly-icon">№</div>
+            <div>
+              <b>Хибний ЄДРПОУ чи ІПН</b>
+              <p>Не сходиться контрольна сума — ймовірно, помилка розпізнавання або друкарська помилка.</p>
+            </div>
+          </div>
+          <div class="anomaly-item">
+            <div class="anomaly-icon">⚠</div>
+            <div>
+              <b>Підміна IBAN шахраями</b>
+              <p>У знайомого контрагента раптом новий номер рахунку — класична схема перехоплення платежів.</p>
+            </div>
+          </div>
+        </div>
 
-<section id="pricing" class="alt"><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Тарифи</div><h2>Прозоро</h2><p>Ціни в доларах за місяць. Для великих обсягів і власного сервера — індивідуальна пропозиція.</p></div>
-  <div class="grid g4">
-    <div class="card"><h3>Trial</h3><div class="price">$0</div><ul><li>30 документів / міс</li><li>Аналіз документів</li></ul><a class="btn" href="http://localhost:5173/login" data-app="login">Почати</a></div>
-    <div class="card"><h3>Start</h3><div class="price">$49<small> /міс</small></div><ul><li>300 документів / міс</li><li>Аналіз документів</li><li>Звірка контрагентів</li></ul><a class="btn" href="#contact">Обрати</a></div>
-    <div class="card hot"><span class="tag">Обирають найчастіше</span><h3>Business</h3><div class="price">$199<small> /міс</small></div><ul><li>3 000 документів / міс</li><li>Усі модулі</li><li>API, вебхуки, Telegram</li></ul><a class="btn primary" href="#contact">Обрати</a></div>
-    <div class="card"><h3>Enterprise</h3><div class="price">Індивід.</div><ul><li>Без ліміту документів</li><li>Власний сервер</li><li>Інтеграції під ваші системи</li></ul><a class="btn" href="#contact">Зв’язатись</a></div>
-  </div>
-</div></section>
+        <div class="card">
+          <div class="anomaly-item">
+            <div class="anomaly-icon">⧉</div>
+            <div>
+              <b>Дублікат рахунку</b>
+              <p>Той самий номер або сума від того ж постачальника вже завантажені раніше в систему.</p>
+            </div>
+          </div>
+          <div class="anomaly-item">
+            <div class="anomaly-icon">Σ</div>
+            <div>
+              <b>Суми та ПДВ «пливуть»</b>
+              <p>Сума окремих рядків не сходиться із загальним підсумком або невірно виділено податок.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section id="faq"><div class="wrap" style="max-width:800px">
-  <div class="sec-head"><div class="eyebrow">Питання</div><h2>Відповіді наперед</h2></div>
-  <details><summary>Наскільки точне розпізнавання?</summary><p>Залежить від якості документа. Саме тому кожен результат проходить перевірки кодом і ваше підтвердження: сумнівні місця підсвічуються, а помилка не потрапляє в облік мовчки.</p></details>
-  <details><summary>Де зберігаються документи?</summary><p>Дані кожної компанії ізольовані, файли можна видалити в будь-який момент. Для компаній із підвищеними вимогами доступне розгортання на власному сервері.</p></details>
-  <details><summary>Чи є інтеграція з 1С або Bitrix24?</summary><p>З коробки — експорт в Excel і CSV, API-ключі, вебхуки та приймання документів з пошти чи Telegram. Прямі інтеграції під ваші системи — у тарифі Enterprise.</p></details>
-  <details><summary>Що буде, якщо перевищу ліміт?</summary><p>Нові завантаження зупиняться до оновлення тарифу; вже оброблені документи залишаються доступними.</p></details>
-</div></section>
+  <!-- Pricing Section -->
+  <section id="pricing" class="alt">
+    <div class="container">
+      <div class="sec-head">
+        <div class="badge-tag"><span class="badge-dot"></span> Тарифна сітка</div>
+        <h2>Прозорі тарифи без прихованих платежів</h2>
+      </div>
 
-<section id="contact" style="padding-top:20px"><div class="wrap"><div class="final">
-  <h2>Перевірте на своїх документах</h2>
-  <p>Акаунт за хвилину. Перші 30 документів — безкоштовно.</p>
-  <a class="btn primary" href="http://localhost:5173/login" data-app="login">Створити акаунт</a>
-</div></div></section>
+      <div class="bento-4">
+        <div class="card pricing-card">
+          <h3>Trial</h3>
+          <div class="price">$0</div>
+          <ul>
+            <li>30 документів / міс</li>
+            <li>AI-аналіз рахунків</li>
+          </ul>
+          <a class="btn" style="width: 100%; justify-content: center;" href="http://localhost:5173/login" data-app="login">Спробувати</a>
+        </div>
+
+        <div class="card pricing-card">
+          <h3>Start</h3>
+          <div class="price">$49<small> / міс</small></div>
+          <ul>
+            <li>300 документів / міс</li>
+            <li>Звірка контрагентів</li>
+          </ul>
+          <a class="btn" style="width: 100%; justify-content: center;" href="#pricing">Обрати</a>
+        </div>
+
+        <div class="card pricing-card hot">
+          <span class="pricing-tag">Найпопулярніший</span>
+          <h3>Business</h3>
+          <div class="price">$199<small> / міс</small></div>
+          <ul>
+            <li>3 000 документів / міс</li>
+            <li>Усі модулі платформи</li>
+            <li>REST API, Webhooks, Telegram</li>
+          </ul>
+          <a class="btn primary" style="width: 100%; justify-content: center;" href="#pricing">Обрати</a>
+        </div>
+
+        <div class="card pricing-card">
+          <h3>Enterprise</h3>
+          <div class="price">Індивід.</div>
+          <ul>
+            <li>Безлімітні обсяги</li>
+            <li>Власний On-Premise сервер</li>
+            <li>Індивідуальні інтеграції</li>
+          </ul>
+          <a class="btn" style="width: 100%; justify-content: center;" href="#pricing">Контакт</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Callout Banner -->
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Перевірте на своїх документах</h2>
+        <p>Створення акаунту за 1 хвилину. Перші 30 документів — безкоштовно без введення банківської картки.</p>
+        <a class="btn primary" style="font-size: 17px; padding: 16px 36px;" href="http://localhost:5173/login" data-app="login">
+          Створити безкоштовний акаунт
+        </a>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer><div class="wrap"><span>© Tochno · Документи — точно.</span><span>Зв’язок: <a data-contact href="#"></a></span></div></footer>
-<script src="config.js"></script>
-<script>
-(function(){
-  var u=(window.APP_URL||'').replace(/\/$/,'');
-  document.querySelectorAll('[data-app="login"]').forEach(function(a){if(u)a.href=u+'/login'});
-  var m=window.CONTACT_EMAIL||'';
-  document.querySelectorAll('[data-contact]').forEach(function(a){a.textContent=m;a.href='mailto:'+m});
-  document.querySelectorAll('a[href="#contact"].btn').forEach(function(a){if(m)a.href='mailto:'+m+'?subject=Tochno'});
-})();
-</script>
+<footer>
+  <div class="container footer-wrap">
+    <span>© Tochno · Документи — точно. AI-верифікація для бухгалтерії.</span>
+    <span>tochno.app</span>
+  </div>
+</footer>
+
 </body>
 </html>

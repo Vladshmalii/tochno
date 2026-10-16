@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "historyId": "b0c89d27-0905-4ef5-8138-c98bc87fad8d",
+  "currentRevision": "117c57ab-70fa-4e37-af31-96c30ee64e07",
+  "pendingChanges": false,
+  "files": {
+    "assets/sfx/error_005.ogg": {
+      "hash": "3f75b11df5b06d68d2c25fbf0e9c9d9e7dd9250562a4007ee34856b8a309a2ae",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/3f/3f75b11df5b06d68d2c25fbf0e9c9d9e7dd9250562a4007ee34856b8a309a2ae"
+    },
+    "assets/sfx/impactPlate_medium_001.ogg": {
+      "hash": "68ba7701b71ef620f498f3038e832157d71ac8db7ad59424545890b250ceb24e",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/68/68ba7701b71ef620f498f3038e832157d71ac8db7ad59424545890b250ceb24e"
+    },
+    "assets/sfx/select_008.ogg": {
+      "hash": "f703b6b1c62dae1c246a46d5c2442802588f68be2df4d17e0d65cf7e0dbfc826",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/f7/f703b6b1c62dae1c246a46d5c2442802588f68be2df4d17e0d65cf7e0dbfc826"
+    },
+    "assets/sfx/switch1.ogg": {
+      "hash": "efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/ef/efdd1d1e2904fb2d81259cd96bb80101caceae94be02baa4b5310714a6708b19"
+    },
+    "index.html": {
+      "hash": "286b99a62f0bd404b356991faabb8609ccf62831706bae6a0e83911ba32d602f",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/28/286b99a62f0bd404b356991faabb8609ccf62831706bae6a0e83911ba32d602f"
+    },
+    "assets/music/track.mp3": {
+      "hash": "364a546834db4c0c2e3b3240eb6df03e98b7362230154b04c5c614442f6660d7",
+      "content": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/36/364a546834db4c0c2e3b3240eb6df03e98b7362230154b04c5c614442f6660d7"
+    }
+  },
+  "revisions": {
+    "4109ed8a-1620-48f8-b403-3c3d61d1df27": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791979833163,
+      "endedAt": 1791979833165,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/ad/adccee95b59fd699b487afad51384872113bae91cc259be7ef3b203cee20cbba",
+          "after": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/04/04dbbde167ef6f504ad8c1f0b962e8cf03bc0358c36feb4f262c2cadd7237af4"
+        }
+      }
+    },
+    "117c57ab-70fa-4e37-af31-96c30ee64e07": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791979946278,
+      "endedAt": 1791979946279,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/04/04dbbde167ef6f504ad8c1f0b962e8cf03bc0358c36feb4f262c2cadd7237af4",
+          "after": "/root/.cache/hyperframes/history/b0c89d27-0905-4ef5-8138-c98bc87fad8d/blobs/28/286b99a62f0bd404b356991faabb8609ccf62831706bae6a0e83911ba32d602f"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "137e3645-13a4-4274-8227-e05fed74f50a"
+    },
+    "revisions": {
+      "4109ed8a-1620-48f8-b403-3c3d61d1df27": [
+        {
+          "id": "27b1f7cd-5c63-4a37-b8e5-dc987b594749",
+          "scope": "project",
+          "metadata": {
+            "ok": false,
+            "browserSkipped": true,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791979848919,
+          "contentHash": "af1fd128fa4320e850bc8267581c34d1641210117a7a45545e657b1b340ef610",
+          "revision": "4109ed8a-1620-48f8-b403-3c3d61d1df27",
+          "inputFingerprint": "8d098f0b75909345528d51c5cc7a9ecb63d01f807cda9b33d0d3a29c6a349ebb",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "087b9ef7-7a76-40f8-b0df-4886342dafbd"
+        },
+        {
+          "id": "ee72c66a-5c29-41cc-821b-ec6502a17eef",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791979918637,
+          "contentHash": "33e678d6972c109b28d00539a1123e7e0d42d9e1e691b313962063ee82a2a17f",
+          "revision": "4109ed8a-1620-48f8-b403-3c3d61d1df27",
+          "inputFingerprint": "8d098f0b75909345528d51c5cc7a9ecb63d01f807cda9b33d0d3a29c6a349ebb",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "087b9ef7-7a76-40f8-b0df-4886342dafbd"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "137e3645-13a4-4274-8227-e05fed74f50a",
+        "scope": "project",
+        "report": "/root/projects/tochno/brag-output/composition/.hyperframes/artifacts/checks/137e3645-13a4-4274-8227-e05fed74f50a.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": true,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1791979777896,
+        "contentHash": "2340623af23a6cdb2c57053520c98e88313640d7c423c225dba3f95f1fe7907c",
+        "revision": null,
+        "inputFingerprint": "d7d4a8cb44551e2288398e8ab47b51d314eb5ddfa29de02194d8fb4052252c13",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "087b9ef7-7a76-40f8-b0df-4886342dafbd",
+      "completedAt": 1791980086953,
+      "output": "/root/projects/tochno/brag-output/brag.mp4",
+      "status": "completed",
+      "revision": "117c57ab-70fa-4e37-af31-96c30ee64e07"
+    },
+    "retainedRevisions": [
+      "117c57ab-70fa-4e37-af31-96c30ee64e07"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}
