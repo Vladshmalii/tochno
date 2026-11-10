@@ -3,7 +3,8 @@
 FROM node:22-alpine AS build
 ARG APP
 ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
+ARG VITE_CLIENT_URL=http://localhost:8080
+ENV VITE_API_URL=$VITE_API_URL VITE_CLIENT_URL=$VITE_CLIENT_URL
 WORKDIR /repo
 COPY package.json package-lock.json ./
 COPY frontend/client-web/package.json frontend/client-web/
