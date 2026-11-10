@@ -3,20 +3,20 @@
 Мультитенантная SaaS-платформа для AI-обработки документов и бухгалтерии. Функционал подключается клиентам модулями (через тариф или индивидуально из админки).
 
 ```
-services/api        FastAPI: auth, тенанты, модули/тарифы, docs_extract, контрагенты, админ-API
-apps/client-web     React+TS: кабинет клиента          (порт 5173)
-apps/admin-web      React+TS: админка платформы        (порт 5174)
-apps/landing        статический рекламный лендинг
-packages/shared     API-клиент, типы, дизайн-токены (общие для обоих фронтендов)
+backend              FastAPI: auth, тенанты, модули/тарифы, docs_extract, контрагенты, админ-API
+frontend/client-web  React+TS: кабинет клиента          (порт 5173)
+frontend/admin-web   React+TS: админка платформы        (порт 5174)
+frontend/shared      API-клиент, типы, дизайн-токены (общие для обоих фронтендов)
+landing              статический рекламный лендинг
 ```
 
 ## Запуск (dev)
 
 ```
-cd services/api
-python -m venv ../../.venv && ../../.venv/Scripts/pip install -r requirements.txt
+cd backend
+python -m venv ../.venv && ../.venv/Scripts/pip install -r requirements.txt
 cp .env.example .env        # LLM_PROVIDER=mock работает без ключа (демо-распознавание)
-../../.venv/Scripts/python -m uvicorn app.main:app --reload     # :8000
+../.venv/Scripts/python -m uvicorn app.main:app --reload     # :8000
 ```
 Первый админ платформы создаётся при старте (`BOOTSTRAP_ADMIN_*`); если пароль не задан — генерируется и пишется в лог.
 
@@ -25,9 +25,9 @@ npm install
 npm run dev:client      # кабинет
 npm run dev:admin       # админка
 ```
-Лендинг: открыть `apps/landing/index.html`; адрес кабинета в проде задаётся `window.APP_URL`.
+Лендинг: открыть `landing/index.html`; адрес кабинета в проде задаётся `window.APP_URL`.
 
-Тесты API: `cd services/api && pytest`.
+Тесты API: `cd backend && pytest`.
 
 ## Модули
 `docs_extract` (счета/акты/накладные, проверка ЄДРПОУ/ІПН/IBAN, дубли, подмена IBAN), `reconcile` (справочник контрагентов),
@@ -44,7 +44,7 @@ API-ключи (`X-API-Key`), вебхуки с HMAC, intake-URL (почта/Zap
 cp .env.example .env     # POSTGRES_PASSWORD, SECRET_KEY, PUBLIC_API_URL ...
 docker compose up -d --build
 ```
-API :8000, кабинет :8080, админка :8081, лендинг :8082 (настройки лендинга — `apps/landing/config.js`).
+API :8000, кабинет :8080, админка :8081, лендинг :8082 (настройки лендинга — `landing/config.js`).
 Тесты на Postgres: `TEST_DATABASE_URL=postgresql+psycopg://... pytest`.
 
 ## Реальный LLM
