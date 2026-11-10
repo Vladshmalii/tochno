@@ -13,3 +13,10 @@ smoke_storage/
 .env.*
 !.env.example
 .DS_Store
+
+# Promo video working state
+.hyperframes/
+brag-output*/composition/
+brag-output/brag-plan.md
+brag-output/composition-brief.md
+*.zip
